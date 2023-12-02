@@ -1,5 +1,5 @@
 # Group members
-Weihao Zheng
+Wai Hou Cheang
 Fan Zhang fzhang32@stevens.edu
 
 # The URL of your public GitHub repo
