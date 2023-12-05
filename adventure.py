@@ -286,26 +286,34 @@ class GameEngine:
             keyword = keywords.pop(0)
             candidates = set()
             for option in options:
-                if keyword in option:
-                    completion += f"{keyword} "
-                    break
-                elif isinstance(option, dict):
+                if isinstance(option, dict):
+                    if keyword in option:
+                        completion += f"{option[keyword]} "
+                        break
                     candidates |= {
                         option.get(key)
                         for key in option
                         if isinstance(key, str) and key.startswith(keyword)
                     }
                 else:
+                    if keyword in option:
+                        completion += f"{option[keyword]} "
+                        break
                     candidates |= set(
                         filter(
                             lambda x: isinstance(x, str) and x.startswith(keyword),
                             option,
                         )
                     )
+
             if len(candidates) >= 1:
                 return completion.strip(), False, (keyword, tuple(candidates))
             if len(candidates) == 1:
                 completion += f"{candidates.pop()} "
+
+        completion=completion.strip()
+        if not completion:
+            return completion,False,(keyword,tuple(candidates))
 
         return completion.strip(), True, (keyword, tuple(candidates))
 
@@ -382,9 +390,8 @@ def direction_ext():
         setattr(GameEngine, direction, m2)
 
 
-direction_ext()
-
 if __name__ == "__main__":
+    direction_ext()
     if len(sys.argv) < 2:
         print("Usage: python adventure.py [map filename]")
         sys.exit(1)
