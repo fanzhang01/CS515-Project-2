@@ -297,7 +297,7 @@ class GameEngine:
                     }
                 else:
                     if keyword in option:
-                        completion += f"{option[keyword]} "
+                        completion += f"{keyword} "
                         break
                     candidates |= set(
                         filter(
@@ -392,10 +392,10 @@ def direction_ext():
 
 if __name__ == "__main__":
     direction_ext()
-    if len(sys.argv) < 2:
-        print("Usage: python adventure.py [map filename]")
-        sys.exit(1)
+    # if len(sys.argv) < 2:
+    #     print("Usage: python adventure.py [map filename]")
+    #     sys.exit(1)
 
-    game_engine = GameEngine(mapfile=sys.argv[1])
-    # game_engine = GameEngine(mapfile="ambig.map.json")
+    # game_engine = GameEngine(mapfile=sys.argv[1])
+    game_engine = GameEngine(mapfile="ambig.map.json")
     game_engine.start()
