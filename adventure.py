@@ -75,8 +75,25 @@ def get_item(command, rooms, current_room, inventory):
 
 
 def drop_item(command, current_room, inventory):
-    # Implement drop_item functionality
-    pass
+    parts = command.split()
+    if len(parts) != 2 or parts[0] != 'drop':
+        print("Sorry, you need to 'drop' something.")
+        return current_room, inventory
+    item_name = parts[1]
+
+    # Check if the item is in the player's inventory
+    if item_name in inventory:
+        # Remove the item from the inventory and add it to the current room
+        inventory.remove(item_name)
+        if 'items' in current_room:
+            current_room['items'].append(item_name)
+        else:
+            current_room['items'] = [item_name]
+        print('You drop the', item_name + '.')
+        return current_room, inventory
+    else:
+        print("You don't have", item_name + '.')
+        return current_room, inventory
 
 
 def inventory_items(current_room, inventory):
@@ -89,8 +106,12 @@ def quit_game():
 
 
 def help_command():
-    # Implement help_command functionality
-    pass
+    current_module = sys.modules[__name__]
+    import inspect
+    function_list = [o for o in inspect.getmembers(current_module) if inspect.isfunction(o[1])]
+
+    for function in function_list:
+        print(inspect.getdoc(function[1]))
 
 
 def show_inventory(inventory):
